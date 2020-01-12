@@ -14,6 +14,17 @@ app.use(
     })
 )
 
+app.use(
+    "/employees",
+    proxy({
+        target: "http://localhost:5011",
+        changeOrigin: true,
+        pathRewrite: {
+            "employees": ""
+        }
+    })
+)
+
 app.listen(PORT, () => {
     console.log(`Gateway running on port ${PORT}!`);
 });
