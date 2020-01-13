@@ -17,9 +17,6 @@ const userLoggedIn = (
   <AuthContextConsumer>
     { ({ logout }) => (
     <Fragment>
-      <Link to="login">
-        Jimmy Kimmel
-      </Link>
       <Nav.Link onClick={() => logout()}>Logout</Nav.Link>
     </Fragment>)}
   </AuthContextConsumer>);
@@ -40,8 +37,8 @@ const Toolbar = withRouter(() => {
     <AuthContextConsumer>
       { ({ user }) => {
         return (
-          <Navbar bg="dark" className="mr-auto">
-            <Navbar.Brand>Big logo</Navbar.Brand>   
+          <Navbar className="mr-auto">
+            <Navbar.Brand>Simplest ERP</Navbar.Brand>   
             <Navbar.Collapse className="justify-content-end">
               { user ? userLoggedIn : unauthenticatedUser }
             </Navbar.Collapse>
