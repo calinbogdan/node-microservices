@@ -14,6 +14,10 @@ const PORT = 5011;
 const app = express();
 
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({
+    extended: true
+}));
 
 app.get("/", async (req, res) => {
     res.send(await Employee.find().exec());

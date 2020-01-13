@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { AuthContextProvider, AuthContextConsumer } from './AuthContext';
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, Form } from "react-bootstrap";
 import { 
   BrowserRouter as Router,
   Switch,
@@ -8,8 +8,10 @@ import {
   Link,
   withRouter
 } from "react-router-dom";
+
 import RegisterPage from "./components/RegisterPage";
 import LoginPage from "./components/LoginPage";
+import EmployeesList from "./components/EmployeesList";
 
 const userLoggedIn = (
   <AuthContextConsumer>
@@ -38,15 +40,16 @@ const Toolbar = withRouter(() => {
     <AuthContextConsumer>
       { ({ user }) => {
         return (
-          <Navbar bg="dark">
-            <Navbar.Brand>Big logo</Navbar.Brand>          
-            { user ? userLoggedIn : unauthenticatedUser }
+          <Navbar bg="dark" className="mr-auto">
+            <Navbar.Brand>Big logo</Navbar.Brand>   
+            <Navbar.Collapse className="justify-content-end">
+              { user ? userLoggedIn : unauthenticatedUser }
+            </Navbar.Collapse>
           </Navbar>)}
       }
     </AuthContextConsumer>)
 });
 
-const EmployeesList = () => (<div></div>);
 
 function App() {
   return (
