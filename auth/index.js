@@ -13,6 +13,10 @@ connect("mongodb://localhost:27017/auth", {
     useUnifiedTopology: true
 });
 
+const addUserAsync = (user) => new User(user).save();
+
+const asUserToken = ({ firstName, lastName, email }) => ({ firstName, lastName, email });
+
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -30,21 +34,26 @@ app.get("/:id", async (req, res) => {
     res.send(user);
 });
 
-app.post("/", (req, res) => {
-    return new User(req.body).save()
+app.post("/", (req, res) => 
+    addUserAsync(req.body)
         .then(newUser => res.status(201).send(newUser))
-        .catch(error => res.status(500).send(error));
-});
+        .catch(error => res.status(500).send(error))
+);
 
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email, password }).lean().exec();
 
-
     if (user) {
-        return res.status(200).send(sign(user, JWT_SECRET));
+        return res.status(200).send(sign(asUserToken(user), JWT_SECRET));
     }
     return res.sendStatus(401);
+});
+
+app.post("/register", async (req, res) => {
+    const newUser = await addUserAsync(req.body);
+
+    return res.status(200).send(sign(asUserToken(newUser), JWT_SECRET));
 });
 
 app.listen(PORT, () => {
