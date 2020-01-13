@@ -1,5 +1,6 @@
 const express = require("express");
 const { connect } = require("mongoose");
+const cors = require("cors");
 
 const Employee = require("./employee/employee.model");
 
@@ -11,6 +12,8 @@ connect("mongodb://localhost:27017/employees", {
 const PORT = 5011;
 
 const app = express();
+
+app.use(cors());
 
 app.get("/", async (req, res) => {
     res.send(await Employee.find().exec());
