@@ -6,16 +6,18 @@ const { sign } = require("jsonwebtoken");
 const User = require("./model/user");
 
 const JWT_SECRET = "124f1f1ufF!Fg1";
-const PORT = 5010;
+const PORT = process.env.PORT || 5010;
+const MONGO_HOST = process.env.MONGO_HOST || "localhost";
 
-connect("mongodb://localhost:27017/auth", {
+connect(`mongodb://${MONGO_HOST}:27017/auth`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
+// TODO move to user service
 const addUserAsync = (user) => new User(user).save();
 
-const asUserToken = ({ firstName, lastName, email }) => ({ firstName, lastName, email });
+const asUserDto = ({ firstName, lastName, email }) => ({ firstName, lastName, email });
 
 const app = express();
 app.use(express.json());
@@ -34,7 +36,7 @@ app.get("/:id", async (req, res) => {
     res.send(user);
 });
 
-app.post("/", (req, res) => 
+app.post("/", (req, res) =>
     addUserAsync(req.body)
         .then(newUser => res.status(201).send(newUser))
         .catch(error => res.status(500).send(error))
@@ -45,7 +47,9 @@ app.post("/login", async (req, res) => {
     const user = await User.findOne({ email, password }).lean().exec();
 
     if (user) {
-        return res.status(200).send(sign(asUserToken(user), JWT_SECRET));
+        return res.status(200).send(
+            sign(asUserDto(user), JWT_SECRET)
+        );
     }
     return res.sendStatus(401);
 });
@@ -53,7 +57,9 @@ app.post("/login", async (req, res) => {
 app.post("/register", async (req, res) => {
     const newUser = await addUserAsync(req.body);
 
-    return res.status(200).send(sign(asUserToken(newUser), JWT_SECRET));
+    return res.status(200).send(
+        sign(asUserDto(newUser), JWT_SECRET)
+    );
 });
 
 app.listen(PORT, () => {
