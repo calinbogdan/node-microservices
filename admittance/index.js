@@ -40,13 +40,14 @@ app.get("/sessions/:id/candidates", async (req, res) => {
  */
 app.post("/sessions/:id/candidates", async (req, res) => {
 
+    // TODO can add candidate if the said session hasn't ended
     if (!req.params.id) {
         return res.status(400).send("ERROR: Parameter 'id' not specified.");
     }
 
     const candidate = await (new Candidate(req.body).save());
 
-    const session = await Session.findByIdAndUpdate(req.params.id, {
+    await Session.findByIdAndUpdate(req.params.id, {
         $push: {
             candidates: ObjectId(candidate._id)
         }
