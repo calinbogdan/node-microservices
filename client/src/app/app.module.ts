@@ -4,25 +4,17 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { AdmittanceComponent } from './admittance/admittance.component';
-import { RouterModule, Routes } from '@angular/router';
-
-const routes: Routes = [
-  { path: 'admittance', component: AdmittanceComponent }
-];
+import { ToolbarModule } from './toolbar/toolbar.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    AdmittanceComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
-    MatToolbarModule,
-    RouterModule.forRoot(routes)
+    ToolbarModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
