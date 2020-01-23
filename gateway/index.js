@@ -15,12 +15,23 @@ app.use(
 )
 
 app.use(
-    "/employees",
+    "/admittance",
     proxy({
-        target: "http://localhost:5011",
+        target: "http://localhost:5015",
         changeOrigin: true,
         pathRewrite: {
-            "employees": ""
+            "admittance": ""
+        }
+    })
+)
+
+app.use(
+    "/secretariate",
+    proxy({
+        target: "http://localhost:5014",
+        changeOrigin: true,
+        pathRewrite: {
+            "secretariate": ""
         }
     })
 )
