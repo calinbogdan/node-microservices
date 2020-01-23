@@ -4,10 +4,12 @@ const { connect, Types: { ObjectId } } = require("mongoose");
 const Candidate = require("./candidate.model");
 const Session = require("./session.model");
 
-connect("mongodb://localhost:27017/admittance", {
+connect("mongodb://127.0.0.1:27017/admittance", {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
+
+console.log(process.env.HOST_PORT);
 
 const app = express();
 const PORT = process.env.PORT || 5015;

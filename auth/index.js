@@ -7,9 +7,8 @@ const User = require("./model/user");
 
 const JWT_SECRET = "124f1f1ufF!Fg1";
 const PORT = process.env.PORT || 5010;
-const MONGO_HOST = process.env.MONGO_HOST || "localhost";
 
-connect(`mongodb://${MONGO_HOST}:27017/auth`, {
+connect(`mongodb://127.0.0.1:27017/auth`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });

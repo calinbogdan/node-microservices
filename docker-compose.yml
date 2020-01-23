@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+    gateway:
+        image: kev1nster/micro-gateway
+        ports: 
+            - "5000:5000"
+    auth:
+        image: kev1nster/micro-auth
+        ports: 
+            - "5010:5010"
+    admittance:
+        image: kev1nster/micro-admittance
+        ports: 
+            - "5015:5015"
+    secretariate: 
+        image: kev1nster/micro-secretariate
+        ports:
+            - "5014:5014"
+networks:
+    default:
